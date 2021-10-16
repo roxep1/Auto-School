@@ -1,11 +1,12 @@
-package com.bashkir.auto_school
+package com.bashkir.auto_school.student
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.bashkir.auto_school.R
 
-class MainActivity : AppCompatActivity() {
+class MainStudentActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_main_student)
     }
 }

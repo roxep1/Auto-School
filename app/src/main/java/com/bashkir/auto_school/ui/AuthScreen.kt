@@ -1,32 +1,56 @@
 package com.bashkir.auto_school.ui
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Text
+import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import com.bashkir.auto_school.R
 import com.bashkir.auto_school.ui.theme.Gray
 import com.bashkir.auto_school.ui.theme.Green
 
+
 @Composable
 fun AuthScreenBody(onClickAuth: () -> Unit) {
-    ConstraintLayout {
-        val button = createRef()
+    ConstraintLayout(modifier = Modifier
+        .background(Gray)
+        .fillMaxSize()) {
+        val (button, image, textFields) = createRefs()
+
+        Image(
+            painterResource(id = R.drawable.car),
+            contentDescription = "Car",
+            modifier = Modifier.constrainAs(image) {
+                top.linkTo(parent.top)
+                bottom.linkTo(textFields.top)
+                end.linkTo(parent.end)
+                start.linkTo(parent.start)
+            })
 
         Box(
             modifier = Modifier
-                .background(Gray)
-                .fillMaxSize(),
+//                .fillMaxSize()
+                .constrainAs(textFields) {
+                    top.linkTo(parent.top)
+                    bottom.linkTo(parent.bottom)
+                    end.linkTo(parent.end)
+                    start.linkTo(parent.start)
+                },
             contentAlignment = Alignment.Center
         ) {
             Column {

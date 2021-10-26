@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.bashkir.auto_school.ui.student.main.MainScreenBody
+import com.bashkir.auto_school.viewmodels.StudentsViewModel
 
 enum class StudentsGraphs {
     MainGraph,
@@ -26,21 +27,21 @@ enum class StudentsSignUpDestinations {
 }
 
 @Composable
-fun CreateStudentsNavHost(navController: NavHostController) {
+fun CreateStudentsNavHost(navController: NavHostController, viewModel: StudentsViewModel) {
     NavHost(
         navController = navController,
         startDestination = StudentsGraphs.MainGraph.name
     ) {
-        mainGraph(navController)
+        mainGraph(navController, viewModel)
         signUpGraph(navController)
     }
 }
 
-private fun NavGraphBuilder.mainGraph(navController: NavController) {
+private fun NavGraphBuilder.mainGraph(navController: NavController, viewModel: StudentsViewModel) {
     navigation(StudentsMainDestinations.Main.name, StudentsGraphs.MainGraph.name) {
 
         composable(StudentsMainDestinations.Main.name) {
-            MainScreenBody(navController)
+            MainScreenBody(navController, viewModel)
         }
 
         composable(StudentsMainDestinations.History.name) {

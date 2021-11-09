@@ -5,11 +5,12 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.airbnb.mvrx.compose.mavericksActivityViewModel
 import com.bashkir.auto_school.student.StudentActivity
 import com.bashkir.auto_school.ui.AuthScreenBody
 import com.bashkir.auto_school.ui.theme.AutoSchoolTheme
+import com.bashkir.auto_school.viewmodels.AuthViewModel
 
 class AuthActivity : AppCompatActivity() {
 
@@ -18,25 +19,17 @@ class AuthActivity : AppCompatActivity() {
         installSplashScreen()
         setContent {
             StartAuthActivity {
-                startActivity(Intent(this, StudentActivity::class.java))
+                this.startActivity(Intent(this, it))
+                this.finish()
             }
         }
     }
 
     @Composable
-    fun StartAuthActivity(onClickAuth: () -> Unit) {
+    fun StartAuthActivity(onAuth: (Class<*>) -> Unit) {
         AutoSchoolTheme {
-            AuthScreenBody(onClickAuth)
-//            val navController = rememberNavController()
-//            CreateNavHost(navController = navController)
-        }
-    }
-
-    @Preview
-    @Composable
-    fun StartAuthPreview() {
-        AutoSchoolTheme {
-            AuthScreenBody {}
+            val viewModel: AuthViewModel = mavericksActivityViewModel()
+            AuthScreenBody(viewModel, onAuth)
         }
     }
 }

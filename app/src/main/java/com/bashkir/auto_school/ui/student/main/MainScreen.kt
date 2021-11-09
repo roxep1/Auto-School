@@ -25,7 +25,6 @@ import com.bashkir.auto_school.ui.student.StudentsGraphs
 import com.bashkir.auto_school.ui.student.StudentsMainDestinations
 import com.bashkir.auto_school.ui.theme.Gray
 import com.bashkir.auto_school.ui.theme.Green
-import com.bashkir.auto_school.viewmodels.StudentsState
 import com.bashkir.auto_school.viewmodels.StudentsViewModel
 import java.time.LocalDateTime
 
@@ -34,8 +33,8 @@ fun MainScreenBody(navController: NavController, viewModel: StudentsViewModel) =
     Scaffold(
         topBar = { MainTopBar(navController) }
     ) {
-        val lessons by viewModel.collectAsState(StudentsState::lessons)
-        ShowLessons(lessons = lessons, navController)
+//        val lessons by viewModel.collectAsState(StudentsState::lessons)
+//        ShowLessons(lessons = lessons, navController)
     }
 
 @Composable
@@ -108,9 +107,8 @@ private fun LessonCard(lesson: Lesson) =
         }
     }
 
-@Preview
 @Composable
 fun LessonCardPreview() {
-    LessonCard(lesson = Lesson(LocalDateTime.now(), LessonType("Вождение", true)))
+    LessonCard(lesson = Lesson(LocalDateTime.now(), LessonType("Вождение", true), ""))
 }
 

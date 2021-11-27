@@ -1,4 +1,4 @@
-package com.bashkir.auto_school.models
+package com.bashkir.auto_school.data.models
 
 
 data class LoginResponse(

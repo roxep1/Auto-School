@@ -1,4 +1,4 @@
-package com.bashkir.auto_school.ui.student
+package com.bashkir.auto_school.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
@@ -7,7 +7,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.bashkir.auto_school.ui.student.main.MainScreenBody
+import com.bashkir.auto_school.ui.screens.student.main.HistoryScreenBody
+import com.bashkir.auto_school.ui.screens.student.main.MainScreenBody
 import com.bashkir.auto_school.viewmodels.StudentsViewModel
 
 enum class StudentsGraphs {
@@ -41,11 +42,13 @@ private fun NavGraphBuilder.mainGraph(navController: NavController, viewModel: S
     navigation(StudentsMainDestinations.Main.name, StudentsGraphs.MainGraph.name) {
 
         composable(StudentsMainDestinations.Main.name) {
+            viewModel.getLessons()
             MainScreenBody(navController, viewModel)
         }
 
         composable(StudentsMainDestinations.History.name) {
-
+            viewModel.getLessons()
+            HistoryScreenBody(navController, viewModel)
         }
 
         composable(StudentsMainDestinations.Settings.name) {

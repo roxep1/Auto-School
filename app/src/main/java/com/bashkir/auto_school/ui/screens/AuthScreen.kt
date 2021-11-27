@@ -26,9 +26,9 @@ import androidx.constraintlayout.compose.ConstraintLayoutScope
 import com.airbnb.mvrx.Loading
 import com.airbnb.mvrx.compose.collectAsState
 import com.bashkir.auto_school.R
-import com.bashkir.auto_school.states.AuthState
 import com.bashkir.auto_school.ui.theme.Gray
 import com.bashkir.auto_school.ui.theme.Green
+import com.bashkir.auto_school.viewmodels.AuthState
 import com.bashkir.auto_school.viewmodels.AuthViewModel
 
 

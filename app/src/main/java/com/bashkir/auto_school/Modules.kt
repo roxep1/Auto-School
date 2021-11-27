@@ -1,12 +1,12 @@
 package com.bashkir.auto_school
 
-import com.bashkir.auto_school.data.AutoSchoolApi
-import com.bashkir.auto_school.data.AutoSchoolRepository
-import com.bashkir.auto_school.data.interfaces.AuthRepository
-import com.bashkir.auto_school.data.interfaces.StudentsRepository
-import com.bashkir.auto_school.states.AuthState
-import com.bashkir.auto_school.states.StudentsState
+import com.bashkir.auto_school.data.api.AutoSchoolApi
+import com.bashkir.auto_school.data.repositories.AutoSchoolRepository
+import com.bashkir.auto_school.data.services.AuthService
+import com.bashkir.auto_school.data.services.StudentsService
+import com.bashkir.auto_school.viewmodels.AuthState
 import com.bashkir.auto_school.viewmodels.AuthViewModel
+import com.bashkir.auto_school.viewmodels.StudentsState
 import com.bashkir.auto_school.viewmodels.StudentsViewModel
 import org.koin.dsl.bind
 import org.koin.dsl.module
@@ -25,7 +25,7 @@ val autoSchoolModule = module {
             .create(AutoSchoolApi::class.java)
     }
 
-    single<StudentsRepository> {
+    single<StudentsService> {
         AutoSchoolRepository()
-    } bind AuthRepository::class
+    } bind AuthService::class
 }

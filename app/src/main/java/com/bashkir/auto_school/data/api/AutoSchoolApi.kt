@@ -1,8 +1,9 @@
-package com.bashkir.auto_school.data
+package com.bashkir.auto_school.data.api
 
-import com.bashkir.auto_school.models.Lesson
-import com.bashkir.auto_school.models.LoginResponse
+import com.bashkir.auto_school.data.models.Lesson
+import com.bashkir.auto_school.data.models.LoginResponse
 import retrofit2.http.*
+import java.time.LocalDateTime
 
 interface AutoSchoolApi {
 
@@ -16,4 +17,7 @@ interface AutoSchoolApi {
 
     @GET("student/lessons")
     suspend fun getLessons(@Header("Authorization") token: String = "Bearer $currentToken"): List<Lesson>
+
+    @DELETE("student/lessons")
+    suspend fun clearHistory(@Query("now") now: LocalDateTime = LocalDateTime.now())
 }

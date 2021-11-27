@@ -1,12 +1,13 @@
-package com.bashkir.auto_school.data
+package com.bashkir.auto_school.data.repositories
 
-import com.bashkir.auto_school.data.interfaces.AuthRepository
-import com.bashkir.auto_school.data.interfaces.StudentsRepository
-import com.bashkir.auto_school.models.Lesson
-import com.bashkir.auto_school.models.Teacher
+import com.bashkir.auto_school.data.api.AutoSchoolApi
+import com.bashkir.auto_school.data.services.AuthService
+import com.bashkir.auto_school.data.services.StudentsService
+import com.bashkir.auto_school.data.models.Lesson
+import com.bashkir.auto_school.data.models.Teacher
 import org.koin.java.KoinJavaComponent.inject
 
-class AutoSchoolRepository : StudentsRepository, AuthRepository {
+class AutoSchoolRepository : StudentsService, AuthService {
     private val retrofit: AutoSchoolApi by inject(AutoSchoolApi::class.java)
 
     override suspend fun getLessons(): List<Lesson> = retrofit.getLessons()
@@ -18,6 +19,8 @@ class AutoSchoolRepository : StudentsRepository, AuthRepository {
     override suspend fun getAvailableTeacherLessons(id: String?): List<Lesson> {
         TODO("Not yet implemented")
     }
+
+    override suspend fun clearHistory() = retrofit.clearHistory()
 
     override suspend fun login(login: String, password: String): Boolean {
         val response = retrofit.login(login, password)

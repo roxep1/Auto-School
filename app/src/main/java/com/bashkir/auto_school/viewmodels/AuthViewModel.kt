@@ -1,27 +1,23 @@
 package com.bashkir.auto_school.viewmodels
 
 
-import com.airbnb.mvrx.MavericksViewModel
-import com.airbnb.mvrx.MavericksViewModelFactory
-import com.airbnb.mvrx.ViewModelContext
-import com.bashkir.auto_school.data.interfaces.AuthRepository
-import com.bashkir.auto_school.states.AuthState
-import com.bashkir.auto_school.student.StudentActivity
+import com.airbnb.mvrx.*
+import com.bashkir.auto_school.data.services.AuthService
+import com.bashkir.auto_school.activities.StudentActivity
 import org.koin.core.parameter.parametersOf
 import org.koin.java.KoinJavaComponent.inject
-import kotlin.reflect.KClass
 
 class AuthViewModel(
     initialState: AuthState,
-    private val repository: AuthRepository
+    private val service: AuthService
 ) :
     MavericksViewModel<AuthState>(initialState) {
     fun login(login: String, password: String, navigate: (Class<*>) -> Unit) {
         onAsync(AuthState::isAuthorized) {
-            if(it)
+            if (it)
                 navigate(StudentActivity::class.java)
         }
-        suspend { repository.login(login, password) }.execute { copy(isAuthorized = it) }
+        suspend { service.login(login, password) }.execute { copy(isAuthorized = it) }
     }
 
     companion object : MavericksViewModelFactory<AuthViewModel, AuthState> {
@@ -36,3 +32,5 @@ class AuthViewModel(
         }
     }
 }
+
+data class AuthState(val isAuthorized: Async<Boolean> = Uninitialized) : MavericksState

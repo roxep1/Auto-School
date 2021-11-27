@@ -1,4 +1,4 @@
-package com.bashkir.auto_school.models
+package com.bashkir.auto_school.data.models
 
 import java.time.LocalDate
 import java.time.LocalDateTime

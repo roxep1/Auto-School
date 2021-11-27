@@ -1,4 +1,4 @@
-package com.bashkir.auto_school.ui.student.sign_up
+package com.bashkir.auto_school.ui.screens.student.sign_up
 
 import androidx.compose.runtime.Composable
 

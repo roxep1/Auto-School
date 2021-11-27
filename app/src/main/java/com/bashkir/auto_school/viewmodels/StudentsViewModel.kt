@@ -1,23 +1,31 @@
 package com.bashkir.auto_school.viewmodels
 
-import com.airbnb.mvrx.MavericksViewModel
-import com.airbnb.mvrx.MavericksViewModelFactory
-import com.airbnb.mvrx.ViewModelContext
-import com.bashkir.auto_school.data.interfaces.StudentsRepository
-import com.bashkir.auto_school.states.StudentsState
+import com.airbnb.mvrx.*
+import com.bashkir.auto_school.data.models.Lesson
+import com.bashkir.auto_school.data.models.User
+import com.bashkir.auto_school.data.services.StudentsService
 import org.koin.core.parameter.parametersOf
 import org.koin.java.KoinJavaComponent.inject
 
 class StudentsViewModel(
     initialState: StudentsState,
-    private val repository: StudentsRepository
-) :
-    MavericksViewModel<StudentsState>(initialState) {
+    private val service: StudentsService
+) : MavericksViewModel<StudentsState>(initialState) {
 
+    init {
+        getLessons()
+    }
 
     fun getLessons() = suspend {
-        repository.getLessons()
+        service.getLessons()
     }.execute { copy(lessons = it) }
+
+    fun clearHistory() = suspend {
+        service.clearHistory()
+    }.execute {
+        getLessons()
+        copy()
+    }
 
     companion object : MavericksViewModelFactory<StudentsViewModel, StudentsState> {
         override fun create(
@@ -30,6 +38,10 @@ class StudentsViewModel(
             return vm
         }
     }
-
 }
+
+data class StudentsState(
+    val lessons: Async<List<Lesson>> = Uninitialized,
+    val user: Async<User> = Uninitialized
+) : MavericksState
 

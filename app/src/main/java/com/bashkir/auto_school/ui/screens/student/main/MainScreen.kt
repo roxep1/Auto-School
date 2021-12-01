@@ -16,7 +16,7 @@ import com.airbnb.mvrx.Success
 import com.airbnb.mvrx.compose.collectAsState
 import com.bashkir.auto_school.R
 import com.bashkir.auto_school.Utils.lessonsAfterNow
-import com.bashkir.auto_school.ui.components.LessonsList
+import com.bashkir.auto_school.ui.components.LessonList
 import com.bashkir.auto_school.ui.components.ListButton
 import com.bashkir.auto_school.ui.navigation.StudentsGraphs
 import com.bashkir.auto_school.ui.navigation.StudentsMainDestinations
@@ -25,13 +25,14 @@ import com.bashkir.auto_school.ui.theme.Gray
 import com.bashkir.auto_school.viewmodels.StudentsState
 import com.bashkir.auto_school.viewmodels.StudentsViewModel
 
+@ExperimentalMaterialApi
 @Composable
 fun MainScreenBody(navController: NavController, viewModel: StudentsViewModel) =
     Scaffold(
         topBar = { MainTopBar(navController) }
     ) {
         val lessons by viewModel.collectAsState(StudentsState::lessons)
-        LessonsList(
+        LessonList(
             lessons = if (lessons is Success) lessonsAfterNow(lessons()!!) else listOf()
         ) {
             ListButton("Записаться на занятие") {

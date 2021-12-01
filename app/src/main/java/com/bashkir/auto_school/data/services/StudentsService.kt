@@ -8,8 +8,10 @@ interface StudentsService {
 
     suspend fun getTeachers(): List<Teacher>
 
-    suspend fun getAvailableTeacherLessons(id: String?) : List<Lesson>
+    suspend fun getAvailableTeacherLessons(teacher: Teacher) : List<Lesson>
 
     suspend fun clearHistory()
+
+    suspend fun signUpToLesson(lesson: Lesson)
 }
 

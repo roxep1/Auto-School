@@ -2,10 +2,12 @@ package com.bashkir.auto_school.viewmodels
 
 import com.airbnb.mvrx.*
 import com.bashkir.auto_school.data.models.Lesson
+import com.bashkir.auto_school.data.models.Teacher
 import com.bashkir.auto_school.data.models.User
 import com.bashkir.auto_school.data.services.StudentsService
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.get
 import org.koin.core.parameter.parametersOf
-import org.koin.java.KoinJavaComponent.inject
 
 class StudentsViewModel(
     initialState: StudentsState,
@@ -14,9 +16,10 @@ class StudentsViewModel(
 
     init {
         getLessons()
+        getTeachers()
     }
 
-    fun getLessons() = suspend {
+    private fun getLessons() = suspend {
         service.getLessons()
     }.execute { copy(lessons = it) }
 
@@ -27,21 +30,34 @@ class StudentsViewModel(
         copy()
     }
 
-    companion object : MavericksViewModelFactory<StudentsViewModel, StudentsState> {
+    private fun getTeachers() = suspend {
+        service.getTeachers()
+    }.execute { copy(teachers = it) }
+
+    fun getTeacherLessons(teacher: Teacher) = suspend {
+        service.getAvailableTeacherLessons(teacher)
+    }.execute { copy(teacherLessons = it) }
+
+    fun signUpToLesson(lesson: Lesson, currentTeacherId: String) = suspend {
+        service.signUpToLesson(lesson)
+    }.execute {
+        getTeacherLessons(teachers()!!.find { it.userInfo.phoneNumber == currentTeacherId }!!)
+        getLessons()
+        copy()
+    }
+
+    companion object : MavericksViewModelFactory<StudentsViewModel, StudentsState>, KoinComponent {
         override fun create(
             viewModelContext: ViewModelContext,
             state: StudentsState
-        ): StudentsViewModel {
-            val vm: StudentsViewModel by inject(StudentsViewModel::class.java) {
-                parametersOf(state)
-            }
-            return vm
-        }
+        ): StudentsViewModel = get { parametersOf(state) }
     }
 }
 
 data class StudentsState(
     val lessons: Async<List<Lesson>> = Uninitialized,
-    val user: Async<User> = Uninitialized
+    val user: Async<User> = Uninitialized,
+    val teachers: Async<List<Teacher>> = Uninitialized,
+    val teacherLessons: Async<List<Lesson>> = Uninitialized
 ) : MavericksState
 

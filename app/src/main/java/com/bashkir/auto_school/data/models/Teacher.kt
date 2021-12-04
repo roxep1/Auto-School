@@ -1,3 +1,5 @@
 package com.bashkir.auto_school.data.models
 
-data class Teacher(val positionName : String, val userInfo: User)
+import com.google.gson.annotations.SerializedName
+
+data class Teacher(val positionName : String, @SerializedName("peopleInfo") val userInfo: User)

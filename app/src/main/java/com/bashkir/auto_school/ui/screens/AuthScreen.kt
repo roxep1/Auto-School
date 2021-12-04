@@ -4,10 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -32,6 +29,7 @@ import com.bashkir.auto_school.viewmodels.AuthState
 import com.bashkir.auto_school.viewmodels.AuthViewModel
 
 
+@ExperimentalMaterialApi
 @Composable
 fun AuthScreenBody(viewModel: AuthViewModel, navigate: (Class<*>) -> Unit) {
     ConstraintLayout(
@@ -111,6 +109,7 @@ private fun LoginField(loginState: MutableState<TextFieldValue>) =
         onValueChange = { loginState.value = it },
         label = { Text("Login") })
 
+@ExperimentalMaterialApi
 @Composable
 private fun ConstraintLayoutScope.AuthButton(
     button: ConstrainedLayoutReference,
@@ -118,8 +117,8 @@ private fun ConstraintLayoutScope.AuthButton(
     onClick: () -> Unit
 ){
     val enabledState = remember{mutableStateOf(true)}
-    val isAuth = viewModel.collectAsState(AuthState::isAuthorized)
-    enabledState.value = isAuth.value !is Loading
+    val token = viewModel.collectAsState(AuthState::token)
+    enabledState.value = token.value !is Loading
     Button(
         onClick = onClick,
         colors = ButtonDefaults.textButtonColors(Green),

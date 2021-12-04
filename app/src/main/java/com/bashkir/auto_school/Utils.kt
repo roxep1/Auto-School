@@ -3,6 +3,7 @@ package com.bashkir.auto_school
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.bashkir.auto_school.data.models.Lesson
+import java.time.Instant
 import java.time.LocalDateTime
 import java.time.Month
 
@@ -30,4 +31,5 @@ object Utils {
         )
     }
 
+    fun String.fromInstantToLocalDateTime(): LocalDateTime = LocalDateTime.parse(this.dropLast(1))
 }

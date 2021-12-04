@@ -1,14 +1,14 @@
 package com.bashkir.auto_school.ui.navigation
 
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavController
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
+import androidx.navigation.*
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.navigation
 import com.bashkir.auto_school.ui.screens.student.main.HistoryScreenBody
 import com.bashkir.auto_school.ui.screens.student.main.MainScreenBody
+import com.bashkir.auto_school.ui.screens.student.sign_up.SignUpScreenBody
+import com.bashkir.auto_school.ui.screens.student.sign_up.TeachersScreenBody
 import com.bashkir.auto_school.viewmodels.StudentsViewModel
 
 enum class StudentsGraphs {
@@ -22,11 +22,13 @@ enum class StudentsMainDestinations {
     Settings
 }
 
-enum class StudentsSignUpDestinations {
-    SignUp,
-    Teachers
+enum class StudentsSignUpDestinations(val argument : String = "") {
+    SignUp("teacherId"),
+    Teachers;
+    val destWithArgument = "${name}/{$argument}"
 }
 
+@ExperimentalMaterialApi
 @Composable
 fun CreateStudentsNavHost(navController: NavHostController, viewModel: StudentsViewModel) {
     NavHost(
@@ -34,20 +36,19 @@ fun CreateStudentsNavHost(navController: NavHostController, viewModel: StudentsV
         startDestination = StudentsGraphs.MainGraph.name
     ) {
         mainGraph(navController, viewModel)
-        signUpGraph(navController)
+        signUpGraph(navController, viewModel)
     }
 }
 
-private fun NavGraphBuilder.mainGraph(navController: NavController, viewModel: StudentsViewModel) {
+@ExperimentalMaterialApi
+private fun NavGraphBuilder.mainGraph(navController: NavController, viewModel: StudentsViewModel) =
     navigation(StudentsMainDestinations.Main.name, StudentsGraphs.MainGraph.name) {
 
         composable(StudentsMainDestinations.Main.name) {
-            viewModel.getLessons()
             MainScreenBody(navController, viewModel)
         }
 
         composable(StudentsMainDestinations.History.name) {
-            viewModel.getLessons()
             HistoryScreenBody(navController, viewModel)
         }
 
@@ -55,17 +56,17 @@ private fun NavGraphBuilder.mainGraph(navController: NavController, viewModel: S
 
         }
     }
-}
 
-private fun NavGraphBuilder.signUpGraph(navController: NavController) {
+
+@ExperimentalMaterialApi
+private fun NavGraphBuilder.signUpGraph(navController: NavController, viewModel: StudentsViewModel) =
     navigation(StudentsSignUpDestinations.Teachers.name, StudentsGraphs.SignUpGraph.name) {
 
         composable(StudentsSignUpDestinations.Teachers.name) {
-
+            TeachersScreenBody(navController, viewModel)
         }
 
-        composable(StudentsSignUpDestinations.SignUp.name) {
-
+        composable(StudentsSignUpDestinations.SignUp.destWithArgument) {
+            SignUpScreenBody(navController, viewModel, it.arguments?.getString(StudentsSignUpDestinations.SignUp.argument)?:"")
         }
     }
-}

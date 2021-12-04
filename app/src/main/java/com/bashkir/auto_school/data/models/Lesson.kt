@@ -1,10 +1,19 @@
 package com.bashkir.auto_school.data.models
 
+import com.bashkir.auto_school.Utils.fromInstantToLocalDateTime
 import com.google.gson.annotations.SerializedName
 import java.time.LocalDateTime
 
 data class Lesson(
-    val date: LocalDateTime,
+    val id: Int,
+
+    @SerializedName("date")
+    val dateString: String,
     val type: LessonType,
-    @SerializedName("phoneNumber") val teacherPhone: String
-)
+
+    @SerializedName("phoneNumber")
+    val teacherPhone: String
+) {
+    val date: LocalDateTime
+        get() = dateString.fromInstantToLocalDateTime()
+}

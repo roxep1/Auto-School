@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.airbnb.mvrx.compose.mavericksActivityViewModel
@@ -11,6 +12,7 @@ import com.bashkir.auto_school.ui.AuthScreenBody
 import com.bashkir.auto_school.ui.theme.AutoSchoolTheme
 import com.bashkir.auto_school.viewmodels.AuthViewModel
 
+@ExperimentalMaterialApi
 class AuthActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

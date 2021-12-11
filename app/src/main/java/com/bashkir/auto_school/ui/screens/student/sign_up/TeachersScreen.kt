@@ -36,7 +36,7 @@ fun TeachersScreenBody(navController: NavController, viewModel: StudentsViewMode
     if (teachers is Success)
         TeachersList(teachers()!!) {
             viewModel.getTeacherLessons(it)
-            navController.navigate("${StudentsSignUpDestinations.SignUp.name}/${it.userInfo.phoneNumber}")
+            navController.navigate(StudentsSignUpDestinations.SignUp.getDest(it.userInfo.phoneNumber))
         }
 }
 

@@ -1,15 +1,11 @@
 package com.bashkir.auto_school.ui.screens.student.main
 
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.airbnb.mvrx.Success
@@ -17,10 +13,9 @@ import com.airbnb.mvrx.compose.collectAsState
 import com.bashkir.auto_school.R
 import com.bashkir.auto_school.Utils.lessonsAfterNow
 import com.bashkir.auto_school.ui.components.LessonList
-import com.bashkir.auto_school.ui.components.ListButton
+import com.bashkir.auto_school.ui.components.StyledButton
 import com.bashkir.auto_school.ui.navigation.StudentsGraphs
 import com.bashkir.auto_school.ui.navigation.StudentsMainDestinations
-import com.bashkir.auto_school.ui.theme.AutoSchoolTheme
 import com.bashkir.auto_school.ui.theme.Gray
 import com.bashkir.auto_school.viewmodels.StudentsState
 import com.bashkir.auto_school.viewmodels.StudentsViewModel
@@ -35,7 +30,7 @@ fun MainScreenBody(navController: NavController, viewModel: StudentsViewModel) =
         LessonList(
             lessons = if (lessons is Success) lessonsAfterNow(lessons()!!) else listOf()
         ) {
-            ListButton("Записаться на занятие") {
+            StyledButton("Записаться на занятие") {
                 navController.navigate(StudentsGraphs.SignUpGraph.name)
             }
         }
@@ -68,12 +63,3 @@ private fun SettingsIcon(navigate: () -> Unit) =
     IconButton(onClick = navigate) {
         Icon(Icons.Filled.Settings, "Settings button")
     }
-
-@Composable
-@Preview
-fun LessonCardPreview() {
-//    LessonCard(lesson = Lesson(LocalDateTime.now(), LessonType("Вождение", true), ""))
-    AutoSchoolTheme {
-        ListButton("Текст") {}
-    }
-}

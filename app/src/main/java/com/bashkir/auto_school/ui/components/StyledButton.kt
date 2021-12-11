@@ -14,14 +14,15 @@ import androidx.compose.ui.unit.sp
 import com.bashkir.auto_school.ui.theme.Green
 
 @Composable
-fun ListButton(text: String, action: () -> Unit) =
+fun StyledButton(text: String, enabled: Boolean = true, action: () -> Unit) =
     Button(
         onClick = action,
         colors = ButtonDefaults.textButtonColors(Green, Color.Black),
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 40.dp, end = 40.dp, top = 16.dp, bottom = 16.dp)
-            .height(40.dp)
+            .height(40.dp),
+        enabled = enabled
     ) {
         Text(text, fontSize = 16.sp)
     }

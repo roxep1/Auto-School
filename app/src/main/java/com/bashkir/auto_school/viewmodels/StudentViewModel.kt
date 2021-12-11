@@ -4,14 +4,14 @@ import com.airbnb.mvrx.*
 import com.bashkir.auto_school.data.models.Lesson
 import com.bashkir.auto_school.data.models.Teacher
 import com.bashkir.auto_school.data.models.User
-import com.bashkir.auto_school.data.services.StudentsService
+import com.bashkir.auto_school.data.services.StudentService
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 import org.koin.core.parameter.parametersOf
 
 class StudentsViewModel(
     initialState: StudentsState,
-    private val service: StudentsService
+    private val service: StudentService
 ) : MavericksViewModel<StudentsState>(initialState) {
 
     init {
@@ -23,12 +23,12 @@ class StudentsViewModel(
         service.getLessons()
     }.execute { copy(lessons = it) }
 
-    fun clearHistory() = suspend {
-        service.clearHistory()
-    }.execute {
-        getLessons()
-        copy()
-    }
+//    fun clearHistory() = suspend {
+//        service.clearHistory()
+//    }.execute {
+//        getLessons()
+//        copy()
+//    }
 
     private fun getTeachers() = suspend {
         service.getTeachers()

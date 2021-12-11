@@ -14,7 +14,7 @@ class AutoSchoolApplication: Application() {
 
         startKoin{
             androidContext(this@AutoSchoolApplication)
-            modules(autoSchoolModule)
+            modules(apiModule, servicesModule, viewModelsModule)
         }
     }
 }

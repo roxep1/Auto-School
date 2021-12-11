@@ -9,7 +9,6 @@ import com.airbnb.mvrx.Success
 import com.airbnb.mvrx.compose.collectAsState
 import com.bashkir.auto_school.ui.components.BaseTopBar
 import com.bashkir.auto_school.ui.components.LessonList
-import com.bashkir.auto_school.ui.components.ListButton
 import com.bashkir.auto_school.ui.navigation.StudentsMainDestinations
 import com.bashkir.auto_school.viewmodels.StudentsState
 import com.bashkir.auto_school.viewmodels.StudentsViewModel
@@ -26,9 +25,7 @@ fun HistoryScreenBody(navController: NavController, viewModel: StudentsViewModel
     val lessons by viewModel.collectAsState(StudentsState::lessons)
     if (lessons is Success)
         lessons()?.let {
-            LessonList(it) {
-                ListButton("Очистить историю", viewModel::clearHistory)
-            }
+            LessonList(it)
         }
 }
 

@@ -3,25 +3,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.bashkir.auto_school">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".AutoSchoolApplication"
+        android:allowBackup="true"
         android:icon="@drawable/car"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AutoSchool"
-        android:allowBackup="true"
         tools:ignore="AllowBackup">
-<!--        android:fullBackupContent=""-->
-
-<!--        <activity-->
-<!--            android:name=".start.TestComposeActivity"-->
-<!--            android:exported="false"-->
-<!--            android:label="@string/title_activity_test_compose"-->
-<!--            android:theme="@style/Theme.AutoSchool.NoActionBar" />-->
+        <activity
+            android:name=".activities.HumanResActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.AccountantActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.AdminActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.TeacherActivity"
+            android:exported="false" /> <!-- android:fullBackupContent="" -->
+        <!-- <activity -->
+        <!-- android:name=".start.TestComposeActivity" -->
+        <!-- android:exported="false" -->
+        <!-- android:label="@string/title_activity_test_compose" -->
+        <!-- android:theme="@style/Theme.AutoSchool.NoActionBar" /> -->
         <activity android:name=".activities.StudentActivity" />
-        <activity android:name=".activities.AuthActivity"
+        <activity
+            android:name=".activities.AuthActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

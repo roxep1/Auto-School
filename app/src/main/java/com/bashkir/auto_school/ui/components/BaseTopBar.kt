@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import com.bashkir.auto_school.ui.theme.Gray
 
 @Composable
-fun BaseTopBar(titleText: String, navigateBack: () -> Unit) =
+fun BaseTopBar(titleText: String, navigateBack: () -> Unit = {}) =
     TopAppBar (
         elevation = 4.dp,
         title = {

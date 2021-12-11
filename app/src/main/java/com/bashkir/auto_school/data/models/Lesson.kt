@@ -5,14 +5,16 @@ import com.google.gson.annotations.SerializedName
 import java.time.LocalDateTime
 
 data class Lesson(
-    val id: Int,
+    val id: Int? = null,
 
     @SerializedName("date")
     val dateString: String,
     val type: LessonType,
 
     @SerializedName("phoneNumber")
-    val teacherPhone: String
+    val teacherPhone: String? = null,
+
+    val students: List<Student>? = null
 ) {
     val date: LocalDateTime
         get() = dateString.fromInstantToLocalDateTime()

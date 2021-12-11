@@ -5,7 +5,8 @@ data class User(
     val name: String,
     val lastName: String,
     val middleName: String?,
-    val email: String?
+    val email: String?,
+    val cred : Cred?
 ) {
     override fun toString(): String = "$name $middleName ${lastName.first()}."
 }

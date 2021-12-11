@@ -18,6 +18,19 @@ import com.bashkir.auto_school.ui.theme.Green
 
 @ExperimentalMaterialApi
 @Composable
+fun LessonList(
+    lessons: List<Lesson> = listOf(),
+    onClick: (Lesson) -> Unit = {},
+    lastItem: @Composable (LazyItemScope.() -> Unit) = {}
+) = LazyColumn(modifier = Modifier.fillMaxSize()) {
+    items(lessons) { lesson ->
+        LessonCard(lesson) { onClick(lesson) }
+    }
+    item(content = lastItem)
+}
+
+@ExperimentalMaterialApi
+@Composable
 fun LessonCard(lesson: Lesson, onClick: () -> Unit = {}) =
     Card(
         modifier = Modifier
@@ -41,7 +54,7 @@ fun LessonCard(lesson: Lesson, onClick: () -> Unit = {}) =
                         )
                     }"
                 )
-                Text(if (lesson.type.isDriving) "Занятие с инструктором" else "Теоретическое занятие")
+                Text(lesson.type.name)
             }
             Column(horizontalAlignment = Alignment.End) {
                 Text(
@@ -49,18 +62,4 @@ fun LessonCard(lesson: Lesson, onClick: () -> Unit = {}) =
                 )
             }
         }
-    }
-
-@ExperimentalMaterialApi
-@Composable
-fun LessonList(
-    lessons: List<Lesson> = listOf(),
-    onClick: (Lesson) -> Unit = {},
-    lastItem: @Composable (LazyItemScope.() -> Unit) = {}
-) =
-    LazyColumn(modifier = Modifier.fillMaxSize()) {
-        items(lessons) { lesson ->
-            LessonCard(lesson) { onClick(lesson) }
-        }
-        item(content = lastItem)
     }

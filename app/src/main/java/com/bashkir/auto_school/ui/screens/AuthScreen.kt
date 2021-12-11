@@ -23,6 +23,7 @@ import androidx.constraintlayout.compose.ConstraintLayoutScope
 import com.airbnb.mvrx.Loading
 import com.airbnb.mvrx.compose.collectAsState
 import com.bashkir.auto_school.R
+import com.bashkir.auto_school.ui.components.StyledTextField
 import com.bashkir.auto_school.ui.theme.Gray
 import com.bashkir.auto_school.ui.theme.Green
 import com.bashkir.auto_school.viewmodels.AuthState
@@ -87,7 +88,7 @@ private fun ConstraintLayoutScope.TextFields(
         contentAlignment = Alignment.Center
     ) {
         Column {
-            LoginField(loginState)
+            StyledTextField(loginState, "Login")
             Spacer(modifier = Modifier.height(16.dp))
             PasswordField(passwordState)
         }
@@ -102,12 +103,6 @@ private fun PasswordField(passwordState: MutableState<TextFieldValue>) =
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
     )
 
-@Composable
-private fun LoginField(loginState: MutableState<TextFieldValue>) =
-    TextField(
-        value = loginState.value,
-        onValueChange = { loginState.value = it },
-        label = { Text("Login") })
 
 @ExperimentalMaterialApi
 @Composable
@@ -115,9 +110,9 @@ private fun ConstraintLayoutScope.AuthButton(
     button: ConstrainedLayoutReference,
     viewModel: AuthViewModel,
     onClick: () -> Unit
-){
-    val enabledState = remember{mutableStateOf(true)}
-    val token = viewModel.collectAsState(AuthState::token)
+) {
+    val enabledState = remember { mutableStateOf(true) }
+    val token = viewModel.collectAsState(AuthState::loginResponse)
     enabledState.value = token.value !is Loading
     Button(
         onClick = onClick,

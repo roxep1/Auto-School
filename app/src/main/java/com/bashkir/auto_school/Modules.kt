@@ -2,37 +2,19 @@ package com.bashkir.auto_school
 
 import androidx.compose.material.ExperimentalMaterialApi
 import com.bashkir.auto_school.data.api.AutoSchoolApi
-import com.bashkir.auto_school.data.repositories.AuthRepository
-import com.bashkir.auto_school.data.repositories.AutoSchoolRepository
-import com.bashkir.auto_school.data.services.AuthService
-import com.bashkir.auto_school.data.services.StudentsService
-import com.bashkir.auto_school.viewmodels.AuthState
-import com.bashkir.auto_school.viewmodels.AuthViewModel
-import com.bashkir.auto_school.viewmodels.StudentsState
-import com.bashkir.auto_school.viewmodels.StudentsViewModel
+import com.bashkir.auto_school.data.repositories.*
+import com.bashkir.auto_school.data.services.*
+import com.bashkir.auto_school.viewmodels.*
 import okhttp3.OkHttpClient
 import org.koin.core.context.loadKoinModules
 import org.koin.core.qualifier.named
-import org.koin.dsl.bind
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-@ExperimentalMaterialApi
-val autoSchoolModule = module {
-    factory { (state: StudentsState) -> StudentsViewModel(state, get()) }
-
-    factory { (state: AuthState) -> AuthViewModel(state, get()) }
+val apiModule = module {
 
     single(named("BASE_URL")) { "https://auto-school.herokuapp.com/" }
-
-    single<StudentsService> {
-        AutoSchoolRepository()
-    }
-
-    single<AuthService> {
-        AuthRepository()
-    }
 
     factory {
         val token = getOrNull<String>(named("token"))
@@ -53,6 +35,35 @@ val autoSchoolModule = module {
             .build()
             .create(AutoSchoolApi::class.java)
     }
+}
+
+val servicesModule = module {
+    single<StudentService> { StudentRepository() }
+
+    single<AuthService> { AuthRepository() }
+
+    single<AccountantService> { AccountantRepository() }
+
+    single<AdminService> { AdminRepository() }
+
+    single<HumanResService> { HumanResRepository() }
+
+    single<TeacherService> { TeacherRepository() }
+}
+
+@ExperimentalMaterialApi
+val viewModelsModule = module {
+    factory { params -> StudentsViewModel(params.get(), get()) }
+
+    factory { params -> AuthViewModel(params.get(), get()) }
+
+    factory { params -> AccountantViewModel(params.get(), get()) }
+
+    factory { params -> AdminViewModel(params.get(), get()) }
+
+    factory { params -> HumanResViewModel(params.get(), get()) }
+
+    factory { params -> TeachersViewModel(params.get(), get()) }
 }
 
 fun loadToken(token: String) = loadKoinModules(module {

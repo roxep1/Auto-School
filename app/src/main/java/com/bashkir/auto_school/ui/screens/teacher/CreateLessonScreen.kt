@@ -18,7 +18,6 @@ import com.bashkir.auto_school.ui.components.*
 import com.bashkir.auto_school.ui.navigation.TeacherDestinations
 import com.bashkir.auto_school.viewmodels.TeachersState
 import com.bashkir.auto_school.viewmodels.TeachersViewModel
-import java.time.Instant
 
 @ExperimentalMaterialApi
 @Composable
@@ -56,7 +55,10 @@ fun CreateLessonForm(lessonTypes: List<LessonType>, onSubmit: (Lesson) -> Unit) 
     Form(
         listOf({
             DatePickerView(text = datePickerText) { date: Long? ->
-                datePickerText.value = Utils.fromLongToLocalDateTimeString(date)
+                try{
+                    datePickerText.value = Utils.fromLongToInstantString(date)
+                }
+                catch(e: Exception){}
             }
         }, {
             ComboBox(lessonTypes, expanded, selectedType)
@@ -64,7 +66,7 @@ fun CreateLessonForm(lessonTypes: List<LessonType>, onSubmit: (Lesson) -> Unit) 
             StyledButton(text = "Создать", enabled = selectedType.value != null) {
                 onSubmit(
                     Lesson(
-                        dateString = Instant.now().toString(),
+                        dateString = datePickerText.value,
                         type = selectedType.value!!
                     )
                 )

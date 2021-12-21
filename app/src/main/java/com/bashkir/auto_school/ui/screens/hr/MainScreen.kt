@@ -1,5 +1,6 @@
 package com.bashkir.auto_school.ui.screens.hr
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.*
@@ -53,6 +54,7 @@ fun MainScreenBody(navController: NavController, viewModel: HumanResViewModel) =
                 periodOfVacation.value.text,
                 selectedEmployee.value!!.userInfo.phoneNumber
             )
+            openDialog.value = false
         }
 }
 
@@ -70,17 +72,18 @@ private fun AlertDialogSubmit(
             Text("Добавить отпуск сотруднику ${employee.value!!.userInfo}")
         },
         text = {
-            StyledTextField(fieldState = coef, text = "Коэффициент", KeyboardType.Number)
-            Spacer(Modifier.height(10.dp))
-            StyledTextField(
-                fieldState = periodOfVacation,
-                text = "Период отпуска",
-                KeyboardType.Text
-            )
+            Column {
+                StyledTextField(fieldState = coef, text = "Коэффициент", KeyboardType.Number)
+                Spacer(Modifier.height(10.dp))
+                StyledTextField(
+                    fieldState = periodOfVacation,
+                    text = "Период отпуска",
+                    KeyboardType.Text
+                )
+            }
         },
         confirmButton = {
             Button(
                 onClick = onConfirm
             ) { Text("Подтвердить") }
         })
-

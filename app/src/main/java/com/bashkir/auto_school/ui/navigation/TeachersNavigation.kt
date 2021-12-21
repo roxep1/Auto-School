@@ -32,20 +32,20 @@ enum class TeacherDestinations(val argument: String? = null) {
 
 @ExperimentalMaterialApi
 @Composable
-fun CreateTeacherNavHost(navController: NavHostController, viewModel: TeachersViewModel) =
+fun CreateTeacherNavHost(navController: NavHostController, viewModel: TeachersViewModel, back: () -> Unit) =
     NavHost(
         navController = navController,
         startDestination = MainGraph.name
     ) {
-        mainGraph(navController, viewModel)
+        mainGraph(navController, viewModel, back)
     }
 
 @ExperimentalMaterialApi
-private fun NavGraphBuilder.mainGraph(navController: NavController, viewModel: TeachersViewModel) =
+private fun NavGraphBuilder.mainGraph(navController: NavController, viewModel: TeachersViewModel, back: () -> Unit) =
     navigation(Main.name, MainGraph.name) {
 
         composable(Main.name) {
-            MainScreenBody(navController, viewModel)
+            MainScreenBody(navController, viewModel, back)
         }
 
         composable(DetailLesson.destWithArgument) {

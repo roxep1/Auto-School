@@ -33,7 +33,8 @@ fun MainScreenBody(viewModel: AccountantViewModel) = Scaffold(
 
     if (openDialog.value)
         AlertDialogSubmit(openDialog = openDialog, salary = salary, employee = emp) {
-            viewModel.changeSalary(emp.value!!.userInfo.phoneNumber, salary.value.text.toFloat())
+            viewModel.changeSalary(emp.value!!.userInfo.phoneNumber.trim(), salary.value.text.toFloat())
+            openDialog.value = false
         }
 }
 

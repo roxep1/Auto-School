@@ -33,8 +33,10 @@ object Utils {
 
     fun String.fromInstantToLocalDateTime(): LocalDateTime = LocalDateTime.parse(this.dropLast(1))
 
-    fun fromLongToLocalDateTimeString(date: Long?) = Instant.ofEpochMilli(date ?: 0).toString().fromInstantToLocalDateTime()
+    fun fromLongToLocalDateTimeString(date: Long?) = fromLongToInstantString(date).fromInstantToLocalDateTime()
         .toString()
+
+    fun fromLongToInstantString(date: Long?) = Instant.ofEpochMilli(date ?: 0).toString()
 
     fun String.toLocalDateTime() = LocalDateTime.parse(this)
 }

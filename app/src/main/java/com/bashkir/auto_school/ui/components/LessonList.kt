@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.bashkir.auto_school.Utils.fromInstantToLocalDateTime
 import com.bashkir.auto_school.Utils.translateMonth
 import com.bashkir.auto_school.data.models.Lesson
 import com.bashkir.auto_school.ui.theme.Green

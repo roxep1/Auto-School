@@ -5,12 +5,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -20,6 +18,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstrainedLayoutReference
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintLayoutScope
+import com.airbnb.mvrx.Fail
 import com.airbnb.mvrx.Loading
 import com.airbnb.mvrx.compose.collectAsState
 import com.bashkir.auto_school.R
@@ -29,31 +28,57 @@ import com.bashkir.auto_school.ui.theme.Green
 import com.bashkir.auto_school.viewmodels.AuthState
 import com.bashkir.auto_school.viewmodels.AuthViewModel
 
-
 @ExperimentalMaterialApi
 @Composable
-fun AuthScreenBody(viewModel: AuthViewModel, navigate: (Class<*>) -> Unit) {
+fun AuthScreenBody(viewModel: AuthViewModel, navigate: (Class<*>) -> Unit) =
     ConstraintLayout(
         modifier = Modifier
             .background(Gray)
             .fillMaxSize()
     ) {
         val (button, image, textFields) = createRefs()
+        val error = remember { mutableStateOf(false) }
 
         Logo(image, textFields)
 
         val loginState = remember { mutableStateOf(TextFieldValue()) }
         val passwordState = remember { mutableStateOf(TextFieldValue()) }
 
-        TextFields(textFields, loginState, passwordState)
+        TextFields(textFields, loginState, passwordState, error)
 
         AuthButton(button, viewModel) {
             viewModel.login(loginState.value.text, passwordState.value.text, navigate)
         }
+        val response by viewModel.collectAsState(AuthState::loginResponse)
+        error.value = response is Fail
     }
 
 
-}
+@Composable
+private fun ConstraintLayoutScope.TextFields(
+    textFields: ConstrainedLayoutReference,
+    loginState: MutableState<TextFieldValue>,
+    passwordState: MutableState<TextFieldValue>,
+    error: MutableState<Boolean>
+) =
+    Box(
+        modifier = Modifier
+            .constrainAs(textFields) {
+                top.linkTo(parent.top)
+                bottom.linkTo(parent.bottom)
+                end.linkTo(parent.end)
+                start.linkTo(parent.start)
+            },
+        contentAlignment = Alignment.Center
+    ) {
+        Column {
+            StyledTextField(loginState, "Login")
+            Spacer(modifier = Modifier.height(16.dp))
+            PasswordField(passwordState)
+            if (error.value)
+                Text(text = "Неверный логин или пароль", color = Color.Red)
+        }
+    }
 
 @Composable
 private fun ConstraintLayoutScope.Logo(
@@ -70,30 +95,6 @@ private fun ConstraintLayoutScope.Logo(
             start.linkTo(parent.start)
         })
 
-
-@Composable
-private fun ConstraintLayoutScope.TextFields(
-    textFields: ConstrainedLayoutReference,
-    loginState: MutableState<TextFieldValue>,
-    passwordState: MutableState<TextFieldValue>
-) =
-    Box(
-        modifier = Modifier
-            .constrainAs(textFields) {
-                top.linkTo(parent.top)
-                bottom.linkTo(parent.bottom)
-                end.linkTo(parent.end)
-                start.linkTo(parent.start)
-            },
-        contentAlignment = Alignment.Center
-    ) {
-        Column {
-            StyledTextField(loginState, "Login")
-            Spacer(modifier = Modifier.height(16.dp))
-            PasswordField(passwordState)
-        }
-    }
-
 @Composable
 private fun PasswordField(passwordState: MutableState<TextFieldValue>) =
     TextField(
@@ -102,7 +103,6 @@ private fun PasswordField(passwordState: MutableState<TextFieldValue>) =
         visualTransformation = PasswordVisualTransformation(),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
     )
-
 
 @ExperimentalMaterialApi
 @Composable

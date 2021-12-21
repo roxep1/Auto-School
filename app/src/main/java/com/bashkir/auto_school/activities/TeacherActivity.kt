@@ -1,5 +1,6 @@
 package com.bashkir.auto_school.activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.compose.setContent
@@ -18,15 +19,18 @@ class TeacherActivity : AppCompatActivity() {
 
         setContent {
             AutoSchoolTheme {
-                StartTeacherActivity()
+                StartTeacherActivity{
+                    startActivity(Intent(this, AuthActivity::class.java))
+                    finish()
+                }
             }
         }
     }
 
     @Composable
-    private fun StartTeacherActivity() {
+    private fun StartTeacherActivity(back : () -> Unit) {
         val navController = rememberNavController()
         val viewModel: TeachersViewModel = mavericksActivityViewModel()
-        CreateTeacherNavHost(navController, viewModel)
+        CreateTeacherNavHost(navController, viewModel, back)
     }
 }

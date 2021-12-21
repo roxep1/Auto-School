@@ -17,8 +17,10 @@ import com.bashkir.auto_school.viewmodels.TeachersViewModel
 
 @ExperimentalMaterialApi
 @Composable
-fun MainScreenBody(navController: NavController, viewModel: TeachersViewModel) = Scaffold(
-    topBar = { BaseTopBar(titleText = "Расписание занятий") }
+fun MainScreenBody(navController: NavController, viewModel: TeachersViewModel, back: () -> Unit) = Scaffold(
+    topBar = { BaseTopBar(titleText = "Расписание занятий") {
+        back()
+    } }
 ) {
     val lessons by viewModel.collectAsState(TeachersState::lessons)
     LessonList(if (lessons is Success) Utils.lessonsAfterNow(lessons()!!) else listOf(), onClick = {

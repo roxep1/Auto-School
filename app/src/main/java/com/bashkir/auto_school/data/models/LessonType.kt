@@ -1,3 +1,7 @@
 package com.bashkir.auto_school.data.models
 
-data class LessonType(val name: String, val isDriving: Boolean)
+import com.google.gson.annotations.SerializedName
+
+data class LessonType(val id : Int, val name: String, @SerializedName("onePlace") val isDriving: Boolean, val duration: Int){
+    override fun toString(): String = name
+}

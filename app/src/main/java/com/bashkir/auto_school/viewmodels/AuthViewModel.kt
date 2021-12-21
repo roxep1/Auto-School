@@ -3,10 +3,7 @@ package com.bashkir.auto_school.viewmodels
 
 import androidx.compose.material.ExperimentalMaterialApi
 import com.airbnb.mvrx.*
-import com.bashkir.auto_school.activities.AccountantActivity
-import com.bashkir.auto_school.activities.AdminActivity
-import com.bashkir.auto_school.activities.StudentActivity
-import com.bashkir.auto_school.activities.TeacherActivity
+import com.bashkir.auto_school.activities.*
 import com.bashkir.auto_school.data.models.LoginResponse
 import com.bashkir.auto_school.data.models.Role
 import com.bashkir.auto_school.data.services.AuthService
@@ -29,6 +26,7 @@ class AuthViewModel(
                     Role.ACCOUNTANT -> navigate(AccountantActivity::class.java)
                     Role.TEACHER -> navigate(TeacherActivity::class.java)
                     Role.ADMIN -> navigate(AdminActivity::class.java)
+                    Role.HR -> navigate(HumanResActivity::class.java)
                 }
             copy(loginResponse = it)
         }
@@ -41,5 +39,6 @@ class AuthViewModel(
         ): AuthViewModel = get { parametersOf(state) }
     }
 }
+
 
 data class AuthState(val loginResponse: Async<LoginResponse> = Uninitialized) : MavericksState

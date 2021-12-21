@@ -34,4 +34,3 @@ fun CreateUserScreenBody(navController: NavController, viewModel: AdminViewModel
             navController.navigate(Main.name)
         }
 }
-

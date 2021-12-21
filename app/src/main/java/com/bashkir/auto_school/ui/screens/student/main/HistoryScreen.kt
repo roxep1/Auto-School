@@ -28,4 +28,3 @@ fun HistoryScreenBody(navController: NavController, viewModel: StudentsViewModel
             LessonList(it)
         }
 }
-

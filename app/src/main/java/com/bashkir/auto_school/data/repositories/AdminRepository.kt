@@ -6,10 +6,10 @@ import com.bashkir.auto_school.data.models.Tariff
 import com.bashkir.auto_school.data.models.Teacher
 import com.bashkir.auto_school.data.models.User
 import com.bashkir.auto_school.data.services.AdminService
-import org.koin.java.KoinJavaComponent
+import org.koin.java.KoinJavaComponent.inject
 
 class AdminRepository : AdminService {
-    private val retrofit: AutoSchoolApi by KoinJavaComponent.inject(AutoSchoolApi::class.java)
+    private val retrofit: AutoSchoolApi by inject(AutoSchoolApi::class.java)
 
     override suspend fun getUsers(): List<User> = retrofit.getUsers()
 

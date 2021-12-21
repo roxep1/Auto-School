@@ -60,7 +60,10 @@ fun UserForm(
         elements.addAll(listOf(
             {
                 DatePickerView(text = datePickerText) {
-                    datePickerText.value = Utils.fromLongToLocalDateTimeString(it)
+                    try {
+                        datePickerText.value = Utils.fromLongToLocalDateTimeString(it)
+                    } catch (e: Exception) {
+                    }
                 }
             },
             {
@@ -97,23 +100,25 @@ fun UserForm(
                 email.value.text,
                 Cred(login.value.text, password.value.text)
             )
-            create(
-                user,
-                if (selectedRole.value == Role.STUDENT)
-                    Student(
-                        user,
-                        datePickerText.value.toLocalDateTime().toLocalDate(),
-                        selectedTariff.value!!
-                    )
-                else null,
-                if (selectedRole.value != Role.STUDENT)
-                    Teacher(
-                        selectedPosition.value!!,
-                        user,
-                        salary.value.text.toFloat()
-                    )
-                else null
-            )
+            try{
+                create(
+                    user,
+                    if (selectedRole.value == Role.STUDENT)
+                        Student(
+                            user,
+                            datePickerText.value.toLocalDateTime().toLocalDate().toString(),
+                            selectedTariff.value!!
+                        )
+                    else null,
+                    if (selectedRole.value != Role.STUDENT)
+                        Teacher(
+                            selectedPosition.value!!,
+                            user,
+                            salary.value.text.toFloat()
+                        )
+                    else null
+                )
+            }catch(e: Exception){}
         }
     }
 
